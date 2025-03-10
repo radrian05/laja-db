@@ -3,7 +3,7 @@ class DB {
     private $host = 'localhost';
     private $user = 'root';
     private $password = '';
-    private $dbname = 'phplogin';
+    private $dbname = 'lajadb';
 
     //PDO
     private $dbh;
