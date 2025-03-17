@@ -1,0 +1,241 @@
+*{
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: beige;
+}
+
+h1, h2{
+    color: #333;
+}
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+}
+
+.toggle {
+    cursor: pointer;
+    position: fixed; /* Cambiado de absolute a fixed */
+    left: 10px; /* Ajusta según sea necesario */
+    padding: 7px;
+    background-color: white;
+    border-radius: 10px;
+    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+    border: 1px solid rgb(163, 160, 160);
+}
+
+.toggle.is-open{
+    display: none;
+}
+
+.sidebar {
+    background-color: white;
+    position: fixed;
+    float: left;
+    height: 100%;
+    border-right: 1px solid lightgray;
+    z-index: 1;
+    transition: 0.5s;
+    width: 0;
+    overflow-x: hidden; /*oculta elementos de la sidebar mientras no esté desplegada*/
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    width: 80%;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 10px 8px 10px 8px;
+    margin-left: 5px;
+    display: block;
+    border-radius: 10px;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.sidebar ul li a.active {
+    background-color: #f6be08;
+    color: black;
+    
+}
+
+.sidebar a:hover{
+    background-color: lightgrey;
+}
+
+.sidebar .closeSidebarButton{
+    position: absolute;
+    top: 0;
+    right: 7px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: #818181;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sidebar.is-open { /*hace ver la sidebar cuando está desplegada*/
+    width: 250px;
+}
+
+main {
+    flex: 1;
+    margin: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 5px;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+}
+
+button{
+    font-weight: bold;
+}
+.logo {
+    margin-left: 30px;
+    height: 65px;
+    border-radius: 15px;
+}
+
+.logo img {
+    border-radius: 15px;
+}
+
+.alert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(26, 110, 158, 0.8); 
+    color: white;
+    margin-bottom: 15px;
+    position: fixed;
+    top: 20px; /* Ajusta la distancia desde la parte superior */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Asegúrate de que el popup esté por encima de otros elementos */
+}
+  
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+  
+.closebtn:hover {
+    color: black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: small;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 0.5rem;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.add{
+    align-items: flex-end;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.edit-product, .add-product {
+    display: none;
+    background-color: white;
+    padding: 0 10px 10px 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 80%; 
+    max-width: 550px;
+}
+
+.edit-product.is-open, .add-product.is-open {
+    display: block;
+}
+
+.edit-product form, .add-product form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-product label, .add-product label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.edit-product input,
+.edit-product select,
+.edit-product button,
+.add-product input,
+.add-product select,
+.add-product button{
+    margin-top: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.edit-product button, .add-product button {
+    margin-top: 20px;
+    background-color: #f6be08;
+    color: rgb(0, 0, 0);
+    border: none;
+    cursor: pointer;
+}
+
+.edit-product button:hover, .add-product button:hover {
+    background-color: #f6be08;
+}
+
+footer{
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

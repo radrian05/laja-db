@@ -16,6 +16,9 @@ body {
     background-size: cover;
 }
 
+button{
+  font-weight: bold;
+}
 header {
   background-color: #f4f4f4; 
   padding: 20px; 
@@ -72,6 +75,7 @@ footer {
 .login .logo img {
     width: 250px; 
     margin-bottom: 20px;
+    border-radius: 15px;
 }
 
 .login label {
@@ -102,4 +106,15 @@ footer {
 
 .login input[type="submit"]:hover {
     background-color: #218838;
+}
+
+.login button{
+    background-color: #f6be08;
+    color: rgb(0, 0, 0);
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
 }

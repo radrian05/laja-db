@@ -43,7 +43,11 @@ class Item {
         $this->db->bind(':price', $data['price']);
         $this->db->bind(':stock', $data['stock']);
         $this->db->bind(':id', $data['id']);
-        return $this->db->execute();
+        if ($this->db->execute()) {
+            return ['success' => true, 'message' => 'Item modificado correctamente'];
+        } else {
+            return ['success' => false, 'message' => 'Error al modificar el item'];
+        }
     }
 
     public function deleteItem($id) {

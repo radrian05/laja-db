@@ -62,7 +62,18 @@ class ItemController {
 
     public function updateItem($data) {
         $result = $this->itemModel->updateItem($data);
-        return $result;
+        if (isset($result) && is_array($result) && array_key_exists('success', $result)) {
+            if ($result['success']) {
+                flash('edit_item', 'Item modificado correctamente');
+                redirect('../views/dashboard.php#add-product');
+            } else {
+                flash('edit_item', 'Error al modificar el item');
+                redirect('../views/dashboard.php');
+            }
+        } else {
+            flash('edit_item', 'Error al procesar la solicitud');
+            redirect('../views/dashboard.php');
+        }
     }
 
     public function deleteItem($id) {
@@ -76,6 +87,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     switch($_POST['type']){
         case 'addItem':
             $ItemController->addItem();
+            break;
+        case 'editItem':
+            $ItemController->updateItem($_POST);
             break;
         default:
             //redirect("../views/dashboard.php");
@@ -97,6 +111,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             redirect('../views/dashboard.php');
     }
     }
-
-
 ?>

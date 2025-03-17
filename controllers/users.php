@@ -103,7 +103,7 @@ class Users{
    public function createUserSession($user){
     $_SESSION['userId'] = $user->userId;
     $_SESSION['userName'] = $user->userName;
-    redirect("../views/dashboard.php");
+    redirect("../views/home.php");
    }
 
    //cierra la sesión

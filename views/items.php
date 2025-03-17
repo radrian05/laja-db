@@ -8,16 +8,16 @@ function generateTable() {
     if ($items) {
         ?>
             <?php foreach ($items as $item) : ?>
-                <tr>
+                <tr id='<?php echo $item->ID; ?>'>
                     <td><?php echo $item->CODE; ?></td>
-                    <td><?php echo $item->NAME; ?></td>
+                    <td class="itemname"><?php echo $item->NAME; ?></td>
                     <td><?php echo $item->BRAND; ?></td>
                     <td><?php echo $item->CATEGORY; ?></td>
                     <td class="price"><?php echo $item->PRICE; ?>$</td>
                     <td><?php echo $item->STOCK; ?></td>
-                    <td>
-                    <button onclick="window.location.href = 'edit.php?id=<?php echo $item->ID; ?>'">Editar</button>
-                    <button class="delete" onclick="window.location.href = '../controllers/items.php?type=delete&id=<?php echo $item->ID; ?>'">Eliminar</button>
+                    <td class="actions">
+                        <button class="edit">Editar</button>
+                        <button class="delete" onclick="window.location.href = '../controllers/items.php?type=delete&id=<?php echo $item->ID; ?>'">Eliminar</button>
                     </td>
                 </tr>
             <?php endforeach;
