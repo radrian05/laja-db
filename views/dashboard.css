@@ -233,7 +233,8 @@ th {
     background-color: #f6be08;
 }
 
-footer{
+footer, footer a:visited{
+    color: black;
     text-align: center;
     position: fixed;
     width: 100%;

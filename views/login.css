@@ -51,11 +51,13 @@ main {
   padding: 20px;
 }
 
-footer {
-  background-color: #fff; 
-  color: #333; 
-  text-align: center; 
-  padding: 10px; 
+footer, footer a:visited {
+  color: white;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
 
 .login {
