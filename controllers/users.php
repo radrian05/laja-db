@@ -1,6 +1,6 @@
 <?php
-require_once "../models/User.php";
-require_once "../helpers/session_helper.php";
+require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../helpers/session_helper.php';
 
 class Users{
     private $userModel;
@@ -23,7 +23,8 @@ class Users{
             'userName' => $_POST['userName'],
             'userUid' => $_POST['userUid'],
             'userPwd' => $_POST['userPwd'],
-            'pwdRepeat' => $_POST['pwdRepeat']
+            'pwdRepeat' => $_POST['pwdRepeat'],
+            'IS_ADMIN' => 0 // Valor predeterminado para nuevos usuarios
         ];
 
         //validar data
@@ -103,6 +104,7 @@ class Users{
    public function createUserSession($user){
     $_SESSION['userId'] = $user->userId;
     $_SESSION['userName'] = $user->userName;
+    $_SESSION['IS_ADMIN'] = $user->IS_ADMIN;
     redirect("../views/home.php");
    }
 
@@ -110,13 +112,52 @@ class Users{
    public function logout(){
     unset($_SESSION['userId']);
     unset($_SESSION['userName']);
+    unset($_SESSION['IS_ADMIN']);
     session_destroy();
     redirect("../views/login.php");
+   }
+
+   public function updatePassword() {
+    // Verificar si el usuario actual tiene permisos de administrador
+    if (!isset($_SESSION['userId']) || !isset($_SESSION['IS_ADMIN']) || $_SESSION['IS_ADMIN'] != 1) {
+        flash("update_password", "No tiene permisos para actualizar contraseñas");
+        redirect("../views/dashboard.php");
+    }
+
+    // Sanitizar datos del formulario
+    $_POST['userUid'] = htmlspecialchars(trim($_POST['userUid']));
+    $_POST['newPassword'] = htmlspecialchars(trim($_POST['newPassword']));
+
+    // Validar datos
+    if (empty($_POST['userUid']) || empty($_POST['newPassword'])) {
+        flash("update_password", "Por favor, complete todos los campos");
+        redirect("../views/dashboard.php");
+    }
+
+    // Validar longitud de la nueva contraseña
+    if (strlen($_POST['newPassword']) < 8) {
+        flash("update_password", "La contraseña debe tener al menos 8 caracteres");
+        redirect("../views/dashboard.php");
+    }
+
+    // Actualizar la contraseña
+    $result = $this->userModel->updatePassword($_POST['userUid'], $_POST['newPassword']);
+    if ($result) {
+        flash("update_password", "Contraseña actualizada correctamente");
+        redirect("../views/dashboard.php");
+    } else {
+        flash("update_password", "Error al actualizar la contraseña");
+        redirect("../views/dashboard.php");
+    }
    }
 }
     
 $init = new Users;
 
+if (php_sapi_name() === 'cli') {
+    // Si se ejecuta desde la terminal, no hacer nada con $_SERVER['REQUEST_METHOD'] ni $_GET['q']
+    return;
+}
 if($_SERVER['REQUEST_METHOD'] == 'POST'){ //maneja el tipo de formulario para registrar usuario o iniciar sesión
     switch($_POST['type']){
         case 'register':

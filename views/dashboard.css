@@ -19,6 +19,20 @@ h1, h2{
     transition: opacity 1s ease-out;
 }
 
+button {
+    background-color: #f6be08;
+    border: none;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 8px 6px 8px 6px;
+    margin-left: 5px;
+    border-radius: 10px;
+    transition: 0.3s;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
 .toggle {
     cursor: pointer;
     position: fixed; /* Cambiado de absolute a fixed */

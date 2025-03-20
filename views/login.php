@@ -1,7 +1,7 @@
 <?php
     include_once '../helpers/session_helper.php';
     if(isset($_SESSION['userId'])){
-        header("location: ../views/dashboard.php");
+        header("location: ../views/home.php");
     }
 ?>
 

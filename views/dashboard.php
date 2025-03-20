@@ -70,9 +70,9 @@
 
                     <label for="category">Categoría:</label>
                     <select id="category" name="category" required>
-                        <option value="Categoria1">Categoria1</option>
-                        <option value="Categoria2">Categoria2</option>
-                        <option value="Categoria3">Categoria3</option>
+                        <option value="Aceites">Aceites</option>
+                        <option value="Amortiguadores">Amortiguadores</option>
+                        <option value="Filtros ">Filtros</option>
                         <option value="Accesorios">Accesorios</option>
                     </select>
 

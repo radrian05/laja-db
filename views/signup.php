@@ -1,7 +1,13 @@
 <?php 
     include_once '../helpers/session_helper.php';
-    if(isset($_SESSION['userId'])){
+    if (!isset($_SESSION['userId'])) {
+        // Si no hay sesión activa, redirigir a la página de inicio de sesión
+        header("location: ../views/login.php");
+        exit();
+    } elseif ($_SESSION['IS_ADMIN'] != 1) {
+        // Si el usuario no es administrador, redirigir a la página de inicio
         header("location: ../views/dashboard.php");
+        exit();
     }
 ?>
 <!DOCTYPE html>
@@ -11,7 +17,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PHP Login System</title>
-        <link rel="stylesheet" href="style.css" type="text/css">
+        <link rel="stylesheet" href="login.css" type="text/css">
     </head>
 
     <body>

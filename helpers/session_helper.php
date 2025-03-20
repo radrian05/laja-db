@@ -24,8 +24,13 @@ function flash($name = '', $message = '', $class = 'alert'){
 }
 
 
-function redirect($location){
-    header("location: ".$location);
+function redirect($location) {
+    if (php_sapi_name() === 'cli') {
+        // Si se ejecuta desde la terminal, no realizar redirección
+        echo "Redirección omitida: $location\n";
+        return;
+    }
+    header("location: " . $location);
     exit();
 }
 
