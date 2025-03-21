@@ -5,6 +5,7 @@ function generateSidebar($current_page) {
     $pages = [
         'home.php' => 'Inicio',
         'dashboard.php' => 'Lista de Productos',
+        'userControl.php' => 'Usuarios',
         '../controllers/Users.php?q=logout' => 'Cerrar Sesión'
     ];
 

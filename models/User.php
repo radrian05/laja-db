@@ -27,7 +27,12 @@ class User {
     
     }
 
-    //Registro del usuario enla base de datos
+    public function getUsers() {
+        $this->db->query('SELECT * FROM users');
+        return $this->db->resultSet();
+    }
+
+    //Registro del usuario en la base de datos
     public function register($data){
         $this->db->query('INSERT INTO users (userName, userUid, userPwd, IS_ADMIN) VALUES (:name, :Uid, :password, :is_admin)');
         
