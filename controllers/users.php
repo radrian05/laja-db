@@ -92,6 +92,9 @@ class Users{
             if($loggedInUser){
                 //crear sesión
                 $this->createUserSession($loggedInUser);
+            }else{
+                flash("login", "Contraseña Incorrecta");
+                redirect("../views/login.php");
             }
         }else{ 
             //si el usuario no fue encontrado
@@ -116,7 +119,7 @@ class Users{
     session_destroy();
     redirect("../views/login.php");
    }
-   
+
    public function updatePassword() {
     // Verificar si el usuario actual tiene permisos de administrador
     if (!isset($_SESSION['userId']) || !isset($_SESSION['IS_ADMIN']) || $_SESSION['IS_ADMIN'] != 1) {
@@ -154,21 +157,27 @@ class Users{
     
 $init = new Users;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Maneja el tipo de formulario para registrar usuario o iniciar sesión
-        switch ($_POST['type']) {
-            case 'register':
-                $init->register();
-                break;
-            case 'login':
-                $init->login();
-                break;
-        }
-    } else {
-        switch ($_GET['q']) { // Maneja el query para cerrar la sesión
-            case 'logout':
-                $init->logout();
-                break;
-            default:
-                redirect("../index.php");
-        }
+if (php_sapi_name() === 'cli') {
+    // Si se ejecuta desde la terminal, no hacer nada con $_SERVER['REQUEST_METHOD'] ni $_GET['q']
+    return;
+}
+if($_SERVER['REQUEST_METHOD'] == 'POST'){ //maneja el tipo de formulario para registrar usuario o iniciar sesión
+    switch($_POST['type']){
+        case 'register':
+            $init->register();
+            break;
+        case 'login':
+            $init->login();
+            break;
     }
+}else{
+    switch($_GET['q']){ //maneja el query para cerrar la sesión
+        case 'logout':
+            $init->logout();
+            break;
+        default:
+        redirect("../index.php");
+    }
+}
+
+?>

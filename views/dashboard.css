@@ -182,6 +182,10 @@ th {
     background-color: #f2f2f2;
 }
 
+td{
+    background-color: white;
+}
+
 .add{
     align-items: flex-end;
 }
