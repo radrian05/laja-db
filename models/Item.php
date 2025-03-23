@@ -28,10 +28,20 @@ class Item {
         $this->db->bind(':price', $data['price']);
         $this->db->bind(':stock', $data['stock']);
         if ($this->db->execute()) {
-            return ['success' => true, 'message' => 'Item añadido correctamente'];
+            return $this->db->lastInsertId(); // Devuelve el ID del producto recién agregado
         } else {
-            return ['success' => false, 'message' => 'Error al añadir el item'];
+            return false;
         }
+    }
+
+    public function addToHistory($data) {
+        $this->db->query('INSERT INTO historial (id_producto, user_id, nota, referencia, cantidad) VALUES (:id_producto, :user_id, :nota, :referencia, :cantidad)');
+        $this->db->bind(':id_producto', $data['id_producto']);
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':nota', $data['nota']);
+        $this->db->bind(':referencia', $data['referencia']);
+        $this->db->bind(':cantidad', $data['cantidad']);
+        return $this->db->execute();
     }
 
     public function updateItem($data) {

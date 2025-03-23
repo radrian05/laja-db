@@ -26,13 +26,13 @@ class ItemController {
         $_POST['category'] = htmlspecialchars(trim($_POST['category']));
         $_POST['price'] = htmlspecialchars(trim($_POST['price']));
         $_POST['stock'] = htmlspecialchars(trim($_POST['stock']));
-
+    
         // Validar data
         if (empty($_POST['code']) || empty($_POST['name']) || empty($_POST['brand']) || empty($_POST['category']) || empty($_POST['price']) || empty($_POST['stock'])) {
             flash('add_item', 'Por favor, complete todos los campos');
             redirect('dashboard.php');
         }
-
+    
         // Preparar data
         $data = [
             'code' => $_POST['code'],
@@ -42,20 +42,25 @@ class ItemController {
             'price' => $_POST['price'],
             'stock' => $_POST['stock']
         ];
-
+    
         // Añadir item
-        $result = $this->itemModel->addItem($data);
-
-        if (isset($result) && is_array($result) && array_key_exists('success', $result)) {
-            if ($result['success']) {
-                flash('add_item', 'Item añadido correctamente');
-                redirect('../views/dashboard.php#add-product');
-            } else {
-                flash('add_item', 'Error al añadir el item');
-                redirect('../views/dashboard.php');
-            }
+        $itemId = $this->itemModel->addItem($data);
+    
+        if ($itemId) {
+            // Registrar en historial
+            $historyData = [
+                'id_producto' => $itemId,
+                'user_id' => $_SESSION['userId'], // ID del usuario que agregó el producto
+                'nota' => 'Producto agregado al inventario',
+                'referencia' => $_POST['code'], // Código del producto como referencia
+                'cantidad' => $_POST['stock'] // Cantidad inicial de stock
+            ];
+            $this->itemModel->addToHistory($historyData);
+    
+            flash('add_item', 'Item añadido correctamente');
+            redirect('../views/dashboard.php#add-product');
         } else {
-            flash('add_item', 'Error al procesar la solicitud');
+            flash('add_item', 'Error al añadir el item');
             redirect('../views/dashboard.php');
         }
     }
