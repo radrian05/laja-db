@@ -15,14 +15,13 @@
         <link rel="stylesheet" href="dashboard.css" type="text/css">
     </head>
 
-    <?php generateSidebar(basename($_SERVER['PHP_SELF'])); ?>
-
     <body>
         <main>
             <?php flash('add_item') ?> 
             <?php flash('delete_item') ?>
 
-            <span class="toggle">&#9776;</span>
+            <?php generateSidebar(basename($_SERVER['PHP_SELF'])); ?>
+
             <img class="logo" src="logo.jpeg">
             <h1 id="index-text">Bienvenido, <?php echo explode(" ", $_SESSION['userName'])[0]; ?> </h1>
             <section class="product-list">
@@ -127,9 +126,9 @@
             </div>
         </main>
 
-        <footer>
+        <!--<footer>
             <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/radrian05/laja-db">LAJA DB</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/radrian05">Adrian Rojas, Alvaro Lara, Juan Jordan, Leizzy Goitia</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-ND 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1" alt=""></a></p>
-        </footer>
+        </footer>-->
 
         <input type="hidden" id="exchangeRateValue" value="<?php echo isset($_SESSION['exchangeRate']) ? $_SESSION['exchangeRate'] : 00; ?>">
 

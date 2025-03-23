@@ -13,8 +13,6 @@ function generateSidebar($current_page) {
     echo '<span class="closeSidebarButton">&times;</span>';
     echo '<ul>';
     foreach ($pages as $file => $name) {
-        //$active = ($file === $current_page) ? 'active' : '';
-        //echo "<li><a href='$file' class='$active'>$name</a></li>";
         if ($file === $current_page) {
             echo "<li><a href='$file' class='active'>$name</a></li>";
         }else {
@@ -23,5 +21,6 @@ function generateSidebar($current_page) {
     }
     echo '</ul>';
     echo '</div>';
+    echo '<button class="toggle" tabindex="0" aria-label="Abrir Sidebar">&#9776;</button>'; // Botón toggle
 }
 ?>

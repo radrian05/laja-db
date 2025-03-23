@@ -15,11 +15,11 @@
         <link rel="stylesheet" href="dashboard.css" type="text/css">
     </head>
 
-    <?php generateSidebar(basename($_SERVER['PHP_SELF'])); ?>
+    
 
     <body>
         <main>
-            <span class="toggle">&#9776;</span>
+        <?php generateSidebar(basename($_SERVER['PHP_SELF'])); ?>
             <img class="logo" src="logo.jpeg">
             <h1 id="index-text">Bienvenido, <?php echo explode(" ", $_SESSION['userName'])[0]; ?> </h1>
             <section class="user-list">

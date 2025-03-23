@@ -14,13 +14,13 @@ function generateExchangeRateField() {
         echo '<button id="modify-exchange-rate">Modificar</button>';
         echo '<form id="exchange-rate-form" method="post" action="set_exchange_rate.php" style="display:none;">
                 <label for="exchangeRate">Ingrese el precio del dólar del día:</label>
-                <input type="number" id="exchangeRate" name="exchangeRate" step="0.01" value="' . $exchangeRate . '" required>
+                <input type="number" id="exchangeRate" name="exchangeRate" min="0" step="0.01" value="' . $exchangeRate . '" required>
                 <button type="submit">Guardar</button>
               </form>';
     } else {
         echo '<form method="post" action="set_exchange_rate.php">
                 <label for="exchangeRate">Ingrese el precio del dólar del día:</label>
-                <input type="number" id="exchangeRate" name="exchangeRate" step="0.01" required>
+                <input type="number" id="exchangeRate" name="exchangeRate" min="0" step="0.01" required>
                 <button type="submit">Guardar</button>
               </form>';
     }

@@ -33,19 +33,37 @@ button {
     cursor: pointer;
 }
 
+/* Estilo para el botón toggle */
 .toggle {
-    cursor: pointer;
-    position: fixed; /* Cambiado de absolute a fixed */
-    left: 10px; /* Ajusta según sea necesario */
-    padding: 7px;
-    background-color: white;
-    border-radius: 10px;
-    z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
-    border: 1px solid rgb(163, 160, 160);
+    all: unset; /* Elimina los estilos predeterminados del botón */
+    position: fixed; /* Fija el botón en la pantalla */
+    left: 10px; /* Ajusta la posición desde la parte izquierda */
+    padding: 3px 3px 3px 3px;
+    background-color: white; /* Fondo blanco */
+    border: 2px solid rgb(163, 160, 160); /* Borde gris */
+    border-radius: 10px; /* Bordes redondeados para hacerlo circular */
+    z-index: 1000; /* Asegúrate de que esté encima de todos los elementos */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    display: flex; /* Centra el contenido del botón */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    font-size: 20px; /* Tamaño del ícono */
+    color: black; /* Color del texto */
+
+}
+
+.toggle:hover {
+    background-color: lightgray; /* Cambia el fondo al pasar el mouse */
 }
 
 .toggle.is-open{
     display: none;
+}
+
+.toggle:focus {
+    outline: 3px solid #000000; /* Resalta el botón con un borde amarillo */
+    outline-offset: 2px; /* Espaciado entre el borde y el botón */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Mantén la sombra al enfocarlo */
 }
 
 .sidebar {
@@ -92,6 +110,22 @@ button {
     background-color: lightgrey;
 }
 
+/* Estilo para el botón de cerrar la sidebar */
+.closeSidebarButton {
+    all: unset; /* Elimina los estilos predeterminados del botón */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 36px;
+    color: #818181;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closeSidebarButton:hover {
+    color: black;
+}
+
 .sidebar .closeSidebarButton{
     position: absolute;
     top: 0;
@@ -110,14 +144,6 @@ button {
 main {
     flex: 1;
     margin: 20px;
-}
-
-footer {
-    text-align: center;
-    padding: 5px;
-    position: relative;
-    width: 100%;
-    bottom: 0;
 }
 
 button{
@@ -257,4 +283,5 @@ footer, footer a:visited{
     position: fixed;
     width: 100%;
     bottom: 0;
+    padding: 5px;
 }
