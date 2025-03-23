@@ -1,9 +1,11 @@
 <?php
+require_once 'config.php';
+
 class DB {
-    private $host = 'localhost';
-    private $user = 'root';
-    private $password = '';
-    private $dbname = 'lajadb';
+    private $host = DB_HOST;
+    private $user = DB_USER;
+    private $password = DB_PASSWORD;
+    private $dbname = DB_NAME;
 
     //PDO
     private $dbh;
