@@ -82,7 +82,7 @@
                     <input type="number" id="stock" name="stock" required>
 
                     <button type="submit">Añadir Producto</button>
-                    <button type="button" class="addClose">Cancelar</button>
+                    <button type="button" class="cancelAdd">Cancelar</button>
                 </form>
                 
             </section>
@@ -121,7 +121,7 @@
                     <input type="number" id="stock" name="stock" required>
 
                     <button type="submit">Confirmar</button>
-                    <button>Cancelar</button>
+                    <button type="button" class="cancelEdit">Cancelar</button>
                 </form>
             </div>
         </main>

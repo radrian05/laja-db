@@ -1,17 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-    moveSidebarOutsideBody();
     setupToggleCurrencyButton();
     setupEditButtons();
     setupAddProductButton();
     setupCloseAddProductButton();
+    setupCancelButtons(); // Configurar los botones de cancelar
 });
-
-function moveSidebarOutsideBody() {
-    const sidebar = document.querySelector(".sidebar");
-    if (sidebar) {
-        document.documentElement.insertBefore(sidebar, document.body);
-    }
-}
 
 function setupToggleCurrencyButton() {
     const toggleButton = document.getElementById("toggle-currency");
@@ -25,7 +18,7 @@ function setupToggleCurrencyButton() {
 function toggleCurrency(toggleButton) {
     const prices = document.querySelectorAll(".price");
     const exchangeRate = parseFloat(document.getElementById('exchangeRateValue').value);
-    if (exchangeRate === 0){
+    if (exchangeRate === 0) {
         return;
     }
 
@@ -74,7 +67,7 @@ function openEditProductForm(button) {
     editForm.querySelector("input[name='price']").value = price;
     editForm.querySelector("input[name='stock']").value = stock;
 
-    editForm.classList.toggle("is-open");
+    editForm.classList.add("is-open");
     editForm.scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -82,7 +75,8 @@ function setupAddProductButton() {
     const addButton = document.querySelector(".add");
     const addForm = document.querySelector(".add-product");
     addButton.addEventListener('click', () => {
-        addForm.classList.toggle("is-open");
+        addForm.classList.add("is-open");
+        addForm.scrollIntoView({ behavior: "smooth" });
     });
 }
 
@@ -92,6 +86,26 @@ function setupCloseAddProductButton() {
     if (closeButton) {
         closeButton.addEventListener('click', () => {
             addForm.classList.remove("is-open");
+        });
+    }
+}
+
+function setupCancelButtons() {
+    const cancelAddButton = document.querySelector(".cancelAdd"); // Botón para cancelar añadir producto
+    const cancelEditButton = document.querySelector(".cancelEdit"); // Botón para cancelar editar producto
+
+    const addForm = document.querySelector(".add-product"); // Formulario de añadir producto
+    const editForm = document.querySelector(".edit-product"); // Formulario de editar producto
+
+    if (cancelAddButton && addForm) {
+        cancelAddButton.addEventListener("click", () => {
+            addForm.classList.remove("is-open"); // Quitar la clase is-open del formulario de añadir producto
+        });
+    }
+
+    if (cancelEditButton && editForm) {
+        cancelEditButton.addEventListener("click", () => {
+            editForm.classList.remove("is-open"); // Quitar la clase is-open del formulario de editar producto
         });
     }
 }

@@ -18,7 +18,6 @@ class CategoryController {
     public function addCategory() {
         $_POST['nombre_categoria'] = htmlspecialchars(trim($_POST['nombre_categoria']));
         $_POST['descripcion_categoria'] = htmlspecialchars(trim($_POST['descripcion_categoria']));
-
         if (empty($_POST['nombre_categoria']) || empty($_POST['descripcion_categoria'])) {
             flash('category_message', 'Por favor, complete todos los campos');
             redirect('../views/category.php');

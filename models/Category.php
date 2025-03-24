@@ -16,9 +16,10 @@ class Category {
 
     // Añadir una nueva categoría
     public function addCategory($data) {
-        $this->db->query('INSERT INTO categorias (nombre_categoria, descripcion_categoria) VALUES (:nombre, :descripcion)');
+        $this->db->query('INSERT INTO categorias (nombre_categoria, descripcion_categoria, date_added) VALUES (:nombre, :descripcion, :fecha)');
         $this->db->bind(':nombre', $data['nombre_categoria']);
         $this->db->bind(':descripcion', $data['descripcion_categoria']);
+        $this->db->bind(':fecha', date('Y-m-d H:i:s'));
         return $this->db->execute();
     }
 

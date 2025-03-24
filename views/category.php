@@ -23,6 +23,10 @@
             <section class="category-list">
                 <h2>Lista de Categorías</h2>
                 <?php flash('category_message'); ?>
+                <div class="button-container">
+                    <button class="add">+</button>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -36,14 +40,28 @@
                         <?php generateCategoryTable()?>
                     </tbody>
                 </table>
-                <h2>Añadir Categoría</h2>
-                <form action="../controllers/categories.php" method="post">
-                    <input type="hidden" name="type" value="addCategory">
-                    <input type="text" name="nombre_categoria" placeholder="Nombre de la categoría" required>
-                    <input type="text" name="descripcion_categoria" placeholder="Descripción de la categoría" required>
-                    <button type="submit">Añadir</button>
-                </form>
-            </section>
+                <div class="add-category">
+                    <h2>Añadir Categoría</h2>
+                    <form action="../controllers/categories.php" method="post">
+                        <input type="hidden" name="type" value="addCategory">
+                        <input type="text" name="nombre_categoria" placeholder="Nombre de la categoría" required>
+                        <input type="text" name="descripcion_categoria" placeholder="Descripción de la categoría" required>
+                        <button type="submit">Añadir</button>
+                        <button class="cancelAdd">Cancelar</button>
+                    </form>
+                </div>
+
+                <div class="edit-category">
+                    <h2>Editar Categoría</h2>
+                    <form action="../controllers/categories.php" method="post">
+                        <input type="hidden" name="type" value="updateCategory">
+                        <input type="hidden" name="id_categoria" value=" " required="">
+                        <input type="text" name="nombre_categoria" placeholder="Nombre de la categoría" required>
+                        <input type="text" name="descripcion_categoria" placeholder="Descripción de la categoría" required>
+                        <button type="submit">Añadir</button>
+                        <button type="button" class="cancelEdit">Cancelar</button>
+                    </form>
+                </div>
         </main>
 
         <footer>
@@ -51,7 +69,7 @@
         </footer>
 
         <script src="sidebar.js"></script>
-        <script src="dashboard.js"></script>
+        <script src="category.js"></script>
         <script src="alert.js"></script>
     </body>
 </html>

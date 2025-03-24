@@ -5,7 +5,7 @@ function generateCategoryTable(){
     $categories = $categoryController->getCategories();
 
     foreach ($categories as $category): ?>
-        <tr>
+        <tr id='<?php echo $category->id_categoria; ?>'>
             <td><?php echo $category->nombre_categoria; ?></td>
             <td><?php echo $category->descripcion_categoria; ?></td>
             <td><?php echo $category->date_added; ?></td>

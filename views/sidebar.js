@@ -5,6 +5,14 @@ const $closeSidebarButton = document.querySelector(".closeSidebarButton");
 const $sidebarLinks = document.querySelectorAll(".sidebar ul li a");
 const $allFocusableElements = document.querySelectorAll("a, button, input, select, textarea, [tabindex]");
 
+function moveSidebarOutsideBody() {
+    const sidebar = document.querySelector(".sidebar");
+    if (sidebar) {
+        document.documentElement.insertBefore(sidebar, document.body);
+    }
+}
+moveSidebarOutsideBody();
+
 // Función: Actualizar el tabindex de los elementos de la sidebar
 function updateSidebarTabindex(isOpen) {
     $sidebarLinks.forEach(link => {
