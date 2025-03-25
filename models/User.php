@@ -32,6 +32,11 @@ class User {
         return $this->db->resultSet();
     }
 
+    public function getInactiveUsers(){
+        $this->db->query('SELECT * FROM users WHERE IS_ACTIVE = 0'); 
+        return $this->db->resultSet();
+    }
+
     //Registro del usuario en la base de datos
     public function register($data){
         $this->db->query('INSERT INTO users (userName, userUid, userPwd, IS_ADMIN) VALUES (:name, :Uid, :password, :is_admin)');
@@ -64,17 +69,29 @@ class User {
         }
     }
 
-    public function updatePassword($userUid, $newPassword) {
-        $this->db->query('UPDATE users SET userPwd = :password WHERE userUid = :userUid');
+    public function updatePassword($userId, $newPassword) {
+        $this->db->query('UPDATE users SET userPwd = :password WHERE userId = :userId');
         
         // Hashear la nueva contraseña
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
         // Vincular parámetros
         $this->db->bind(':password', $hashedPassword);
-        $this->db->bind(':userUid', $userUid);
+        $this->db->bind(':userId', $userId);
 
         // Ejecutar la consulta
+        return $this->db->execute();
+    }
+
+    public function disableUser($userId) {
+        $this->db->query('UPDATE users SET IS_ACTIVE = 0 WHERE userId = :userId');
+        $this->db->bind(':userId', $userId);
+        return $this->db->execute();
+    }
+    
+    public function enableUser($userId) {
+        $this->db->query('UPDATE users SET IS_ACTIVE = 1 WHERE userId = :userId');
+        $this->db->bind(':userId', $userId);
         return $this->db->execute();
     }
         

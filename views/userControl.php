@@ -19,13 +19,14 @@
 
     <body>
         <main>
+        <?php flash('user_message')?>
+        <?php flash('register') ?>
         <?php generateSidebar(basename($_SERVER['PHP_SELF'])); ?>
             <img class="logo" src="logo.jpeg">
             <h1 id="index-text">Bienvenido, <?php echo explode(" ", $_SESSION['userName'])[0]; ?> </h1>
             <section class="user-list">
                 <h2>Control de Usuarios</h2>
                 <div class="button-containter">
-                    <button id="toggler"placeholder></button>
                     <button class="add">+</button>
                 </div>
                 <table>
@@ -36,6 +37,7 @@
                         <th>Nombre de usuario</th>
                         <th>Contraseña</th>
                         <th>Administrador</th>
+                        <th>Activo</th>
                         <th>Acciones</tr>
                     </tr>
                 </thead>
@@ -43,6 +45,32 @@
                     <?php generateTable(); ?>
                 </tbody>
             </section>
+            
+            <div class="add-user">
+                <form method="post" action="../controllers/Users.php">
+                    <h1>Registro de Usuario</h1>
+                    <input type="hidden" name="type" value="register">
+                    <input type="text" name="userName" placeholder="Nombre y Apellido...">
+                    <input type="text" name="userUid" placeholder="Nombre de Usuario...">
+                    <input type="password" name="userPwd" placeholder="Contraseña...">
+                    <input type="password" name="pwdRepeat" placeholder="Repetir Contraseña">
+                    <button type="submit" name="submit">Listo</button>
+                    <button type="button" class="cancelAdd">Cancelar</button>
+                </form>
+            </div>
+
+            <div class="change-password">
+                <form method="post" action="../controllers/Users.php">
+                    <h1>Cambiar Contraseña</h1>
+                    <input type="hidden" name="type" value="changePassword">
+                    <input type="hidden" name="userId" value=" ">
+                    <input type="password" name="userPwd" placeholder="Contraseña nueva" required>
+                    <input type="password" name="pwdRepeat" placeholder="Repetir Contraseña" required>
+
+                    <button type="submit" name="submit">Listo</button>
+                    <button type="button" class="cancelChange">Cancelar</button>
+                </form>
+            </div>
            
         </main>
 
@@ -51,7 +79,7 @@
         </footer>
 
         <script src="sidebar.js"></script>
-        <script src="dashboard.js"></script>
+        <script src="userControl.js"></script>
         <script src="alert.js"></script>
     </body>
 </html>

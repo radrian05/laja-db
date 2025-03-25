@@ -31,28 +31,28 @@ class Users{
         if(empty($data['userName']) || empty($data['userUid']) || empty($data['userPwd']) || empty($data['pwdRepeat'])){
             //algo de un error
             flash("register", "Por favor llene todos los campos");
-            redirect("../views/signup.php");
+            redirect("../views/userControl.php");
         }
 
         //si el nombre de usuario tiene caracteres no alfanumericos
         if(!preg_match("/^[a-zA-Z0-9]*$/", $data['userUid'])){
             flash("register", "Nombre de usuario invalido");
-            redirect("../views/signup.php");
+            redirect("../views/userControl.php");
         }
 
         //si la contraseña tiene menos de 8 caracteres
         if(strlen($data['userPwd']) < 8){
             flash("register", "Invalid password");
-            redirect("../signup.php");
+            redirect("../views/userControl.php");
         } else if($data['userPwd'] !== $data['pwdRepeat']){ //si las contraseñas no coinciden
             flash("register", "Las contraseñas no coinciden");
-            redirect("../views/signup.php");
+            redirect("../views/userControl.php");
         }
 
         //Si existe un usuario con el mismo username
-        if($this->userModel->findUserByUsername($data['userName'])){
+        if($this->userModel->findUserByUsername($data['userUid'])){
             flash("register", "El Nombre de usuario ya está en uso");
-            redirect("../views/signup.php");
+            redirect("../views/userControl.php");
         }
 
         //si se llega a este punto, se ha pasado todas las validaciones
@@ -62,46 +62,55 @@ class Users{
 
         //Registrar Usuario
         if($this->userModel->register($data)){
-            redirect("../views/login.php");
+            redirect("../views/userControl.php");
         }else{
             die("Algo salio mal...");
         }
     }
 
-    public function login(){
-        //sanitizar POST data (sin FILTER_SANITIZE_STRING)
+    public function login() {
+        // Sanitizar POST data
         $_POST['userPwd'] = htmlspecialchars(trim($_POST['userPwd']));
         $_POST['name'] = htmlspecialchars(trim($_POST['name']));
 
-        //init
-        $data=[
+        // Inicializar datos
+        $data = [
             'name' => $_POST['name'],
             'userPwd' => $_POST['userPwd'],
         ];
 
-        if(empty($data['name']) || empty($data['userPwd'])){
+        // Validar datos
+        if (empty($data['name']) || empty($data['userPwd'])) {
             flash("login", "Por favor, complete todos los campos");
-            header("location: ../views/login.php");
+            redirect("../views/login.php");
             exit();
-        }   
-        
-        //revisa si el usuario o email existe
-        if($this->userModel->findUserByUsername($data['name'])){
-            //si el usuario o correo fue encontrado
+        }
+
+        // Revisar si el usuario existe
+        $user = $this->userModel->findUserByUsername($data['name']);
+        if ($user) {
+            // Verificar si el usuario está activo
+            if ($user->IS_ACTIVE == 0) {
+                flash("login", "Su cuenta ha sido desactivada. Contacte al administrador.");
+                redirect("../views/login.php");
+                exit();
+            }
+
+            // Intentar iniciar sesión
             $loggedInUser = $this->userModel->login($data['name'], $data['userPwd']);
-            if($loggedInUser){
-                //crear sesión
+            if ($loggedInUser) {
+                // Crear sesión
                 $this->createUserSession($loggedInUser);
-            }else{
-                flash("login", "Contraseña Incorrecta");
+            } else {
+                flash("login", "Contraseña incorrecta");
                 redirect("../views/login.php");
             }
-        }else{ 
-            //si el usuario no fue encontrado
+        } else {
+            // Si el usuario no fue encontrado
             flash("login", "Usuario no encontrado");
             redirect("../views/login.php");
         }
-   }
+    }
 
    //crea la sesión
    public function createUserSession($user){
@@ -120,63 +129,116 @@ class Users{
     redirect("../views/login.php");
    }
 
-   public function updatePassword() {
+   public function getUsers() {
+    $users = $this->userModel->getUsers(); // Llama al modelo para obtener los usuarios
+    return $users; // Devuelve la lista de usuarios
+    }
+
+    public function getInactiveUsers(){
+        $users = $this->userModel->getInactiveUsers();
+        return $users;
+    }
+    
+   public function changePassword() {
     // Verificar si el usuario actual tiene permisos de administrador
     if (!isset($_SESSION['userId']) || !isset($_SESSION['IS_ADMIN']) || $_SESSION['IS_ADMIN'] != 1) {
-        flash("update_password", "No tiene permisos para actualizar contraseñas");
-        redirect("../views/dashboard.php");
+        flash("user_message", "No tiene permisos para actualizar contraseñas");
+        redirect("../views/userControl.php");
     }
 
     // Sanitizar datos del formulario
-    $_POST['userUid'] = htmlspecialchars(trim($_POST['userUid']));
-    $_POST['newPassword'] = htmlspecialchars(trim($_POST['newPassword']));
+    $_POST['userId'] = htmlspecialchars(trim($_POST['userId']));
+    $_POST['userPwd'] = htmlspecialchars(trim($_POST['userPwd']));
+    $_POST['pwdRepeat'] = htmlspecialchars(trim($_POST['pwdRepeat']));
 
     // Validar datos
-    if (empty($_POST['userUid']) || empty($_POST['newPassword'])) {
-        flash("update_password", "Por favor, complete todos los campos");
-        redirect("../views/dashboard.php");
+    if (empty($_POST['userId']) || empty($_POST['userPwd']) || empty($_POST['pwdRepeat'])) {
+        flash("user_message", "Por favor, complete todos los campos");
+        redirect("../views/userControl.php");
+    }
+
+    // Validar que las contraseñas coincidan
+    if ($_POST['userPwd'] !== $_POST['pwdRepeat']) {
+        flash("user_message", "Las contraseñas no coinciden");
+        redirect("../views/userControl.php");
     }
 
     // Validar longitud de la nueva contraseña
-    if (strlen($_POST['newPassword']) < 8) {
-        flash("update_password", "La contraseña debe tener al menos 8 caracteres");
-        redirect("../views/dashboard.php");
+    if (strlen($_POST['userPwd']) < 8) {
+        flash("user_message", "La contraseña debe tener al menos 8 caracteres");
+        redirect("../views/userControl.php");
     }
 
     // Actualizar la contraseña
-    $result = $this->userModel->updatePassword($_POST['userUid'], $_POST['newPassword']);
+    $result = $this->userModel->updatePassword($_POST['userId'], $_POST['userPwd']);
     if ($result) {
-        flash("update_password", "Contraseña actualizada correctamente");
-        redirect("../views/dashboard.php");
+        flash("user_message", "Contraseña actualizada correctamente");
     } else {
-        flash("update_password", "Error al actualizar la contraseña");
-        redirect("../views/dashboard.php");
+        flash("user_message", "Error al actualizar la contraseña");
     }
+    redirect("../views/userControl.php");
+   }
+
+   public function disableUser($id) {
+    if (!isset($_SESSION['IS_ADMIN']) || $_SESSION['IS_ADMIN'] != 1) {
+        flash("user_message", "No tiene permisos para desactivar usuarios");
+        redirect("../views/userControl.php");
+    }
+
+    if ($this->userModel->disableUser($id)) {
+        flash("user_message", "Usuario desactivado correctamente");
+    } else {
+        flash("user_message", "Error al desactivar el usuario");
+    }
+    redirect("../views/userControl.php");
+   }
+
+   public function enableUser($id) {
+    if (!isset($_SESSION['IS_ADMIN']) || $_SESSION['IS_ADMIN'] != 1) {
+        flash("user_message", "No tiene permisos para reactivar usuarios");
+        redirect("../views/userControl.php");
+    }
+
+    if ($this->userModel->enableUser($id)) {
+        flash("user_message", "Usuario reactivado correctamente");
+    } else {
+        flash("user_message", "Error al reactivar el usuario");
+    }
+    redirect("../views/userControl.php");
    }
 }
     
 $init = new Users;
 
-if (php_sapi_name() === 'cli') {
-    // Si se ejecuta desde la terminal, no hacer nada con $_SERVER['REQUEST_METHOD'] ni $_GET['q']
-    return;
-}
-if($_SERVER['REQUEST_METHOD'] == 'POST'){ //maneja el tipo de formulario para registrar usuario o iniciar sesión
-    switch($_POST['type']){
-        case 'register':
-            $init->register();
-            break;
-        case 'login':
-            $init->login();
-            break;
-    }
-}else{
-    switch($_GET['q']){ //maneja el query para cerrar la sesión
-        case 'logout':
-            $init->logout();
-            break;
-        default:
-        redirect("../index.php");
+if (php_sapi_name() !== 'cli') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $init = new Users();
+        switch ($_POST['type']) {
+            case 'register':
+                $init->register();
+                break;
+            case 'changePassword':
+                $init->changePassword();
+                break;
+            case 'login':
+                $init->login();
+                break;
+        }
+    } elseif (isset($_GET['q'])) {
+        $init = new Users();
+        switch ($_GET['q']) {
+            case 'logout':
+                $init->logout();
+                break;
+            case 'disableUser':
+                $init->disableUser($_GET['id']);
+                break;
+            case 'enableUser':
+                $init->enableUser($_GET['id']);
+                break;
+            default:
+                redirect("../index.php");
+        }
     }
 }
 
