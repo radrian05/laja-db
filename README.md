@@ -32,3 +32,6 @@ El desarrollo de LAJA-DB ha sido posible gracias a la colaboración de los sigui
 2. **importar el archivo .sql para la base de datos**
    ```bash
    lajadb.sql
+para entrar al sistema usando la plantilla sql:
+- usuario : admin
+- contraseña : password
