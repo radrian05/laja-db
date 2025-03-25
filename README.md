@@ -1,9 +1,9 @@
-# LAJA-LOGIN
+# LAJA-DB
 
-LAJA-LOGIN es un sistema de login desarrollado en PHP, diseñado para integrarse con el sistema de inventario LAJA-DB. Permite a los usuarios registrarse, iniciar sesión y gestionar su sesión de manera segura.
+LAJA-DB PLACEHOLDER
 
 ## Creditos
-El desarrollo de LAJA-LOGIN ha sido posible gracias a la colaboración de los siguientes desarrolladores
+El desarrollo de LAJA-DB ha sido posible gracias a la colaboración de los siguientes desarrolladores
 - Adrian Rojas
 - Alvaro Lara
 - Juan Jordan
@@ -11,9 +11,9 @@ El desarrollo de LAJA-LOGIN ha sido posible gracias a la colaboración de los si
 
 ## Características
 
-- Registro de usuarios con validación de datos.
-- Inicio de sesión seguro con verificación de contraseña.
-- Gestión de sesiones para mantener a los usuarios autenticados.
+- PLACEHOLDER
+- PLACEHOLDER
+- PLACEHOLDER
 
 ## Requisitos
 
@@ -26,9 +26,9 @@ El desarrollo de LAJA-LOGIN ha sido posible gracias a la colaboración de los si
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone https://github.com/radrian05/laja-login.git
+   git clone https://github.com/radrian05/laja-db.git
    cd laja-login
 
-2. **Ejecutar el script para crear la base de datos:**
+2. **importar el archivo .sql para la base de datos**
    ```bash
-   php dbsetup.php
+   lajadb.sql
