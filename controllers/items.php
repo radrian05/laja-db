@@ -1,6 +1,7 @@
 <?php
 require_once "../models/Item.php";
 require_once "../helpers/session_helper.php";
+
 class ItemController {
     private $itemModel;
 
@@ -50,10 +51,11 @@ class ItemController {
             // Registrar en historial
             $historyData = [
                 'id_producto' => $itemId,
-                'user_id' => $_SESSION['userId'], // ID del usuario que agregó el producto
+                'user_id' => $_SESSION['userName'], // ID del usuario que agregó el producto
                 'nota' => 'Producto agregado al inventario',
                 'referencia' => $_POST['code'], // Código del producto como referencia
-                'cantidad' => $_POST['stock'] // Cantidad inicial de stock
+                'stock_up' => $_POST['stock'], // Cantidad inicial de stock
+                'stock_down' => null // No hay disminución de stock al agregar un producto
             ];
             $this->itemModel->addToHistory($historyData);
     
@@ -85,22 +87,88 @@ class ItemController {
         $result = $this->itemModel->deleteItem($id);
         return $result;
     }
+
+    public function getProductHistory($productId) {
+        return $this->itemModel->getProductHistory($productId);
+    }
+
+    public function increaseStock() {
+        $id = htmlspecialchars(trim($_POST['id']));
+        $quantity = htmlspecialchars(trim($_POST['quantity']));
+
+        if (empty($id) || empty($quantity) || $quantity <= 0) {
+            flash('stock_message', 'Cantidad inválida');
+            redirect('../views/dashboard.php');
+        }
+
+        if ($this->itemModel->increaseStock($id, $quantity)) {
+            // Registrar en historial
+            $historyData = [
+                'id_producto' => $id,
+                'user_id' => $_SESSION['userName'], // Usuario que realizó la acción
+                'nota' => 'Stock aumentado',
+                'referencia' => 'Aumento manual',
+                'stock_up' => $quantity, // Cantidad aumentada
+                'stock_down' => null // No hay disminución
+            ];
+            $this->itemModel->addToHistory($historyData);
+
+            flash('stock_message', 'Stock aumentado correctamente');
+        } else {
+            flash('stock_message', 'Error al aumentar el stock');
+        }
+        redirect('../views/dashboard.php');
+    }
+
+    public function decreaseStock() {
+        $id = htmlspecialchars(trim($_POST['id']));
+        $quantity = htmlspecialchars(trim($_POST['quantity']));
+
+        if (empty($id) || empty($quantity) || $quantity <= 0) {
+            flash('stock_message', 'Cantidad inválida');
+            redirect('../views/dashboard.php');
+        }
+
+        if ($this->itemModel->decreaseStock($id, $quantity)) {
+            // Registrar en historial
+            $historyData = [
+                'id_producto' => $id,
+                'user_id' => $_SESSION['userName'], // Usuario que realizó la acción
+                'nota' => 'Stock disminuido',
+                'referencia' => 'Disminución manual',
+                'stock_up' => null, // No hay aumento
+                'stock_down' => $quantity // Cantidad disminuida
+            ];
+            $this->itemModel->addToHistory($historyData);
+
+            flash('stock_message', 'Stock disminuido correctamente');
+        } else {
+            flash('stock_message', 'Error al disminuir el stock o cantidad insuficiente');
+        }
+        redirect('../views/dashboard.php');
+    }
 }
+
 $ItemController = new ItemController;
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    switch($_POST['type']){
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    switch ($_POST['type']) {
         case 'addItem':
             $ItemController->addItem();
             break;
         case 'editItem':
             $ItemController->updateItem($_POST);
             break;
+        case 'increaseStock':
+            $ItemController->increaseStock();
+            break;
+        case 'decreaseStock':
+            $ItemController->decreaseStock();
+            break;
         default:
-            //redirect("../views/dashboard.php");
             echo "error";
     }
-}else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['type'])) {
+} else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['type'])) {
     switch ($_GET['type']) {
         case 'delete':
             if (isset($_GET['id'])) {
@@ -115,5 +183,5 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         default:
             redirect('../views/dashboard.php');
     }
-    }
+}
 ?>

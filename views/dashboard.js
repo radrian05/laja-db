@@ -1,9 +1,10 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     setupToggleCurrencyButton();
     setupEditButtons();
     setupAddProductButton();
     setupCloseAddProductButton();
-    setupCancelButtons(); // Configurar los botones de cancelar
+    setupCancelButtons();
+    setupStockButtons(); // Configurar los botones de aumentar y disminuir stock
 });
 
 function setupToggleCurrencyButton() {
@@ -51,12 +52,11 @@ function setupEditButtons() {
 function openEditProductForm(button) {
     const row = button.closest("tr");
     const id = row.id;
-    const code = row.querySelector("td:nth-child(1)").textContent;
-    const name = row.querySelector("td:nth-child(2)").textContent;
-    const brand = row.querySelector("td:nth-child(3)").textContent;
-    const category = row.querySelector("td:nth-child(4)").textContent;
-    const price = row.querySelector("td:nth-child(5)").textContent.replace('$', '');
-    const stock = row.querySelector("td:nth-child(6)").textContent;
+    const code = row.querySelector("td:nth-child(1)").textContent.trim(); // Eliminar espacios extra
+    const name = row.querySelector("td:nth-child(2)").textContent.trim(); // Eliminar espacios extra
+    const brand = row.querySelector("td:nth-child(3)").textContent.trim(); // Eliminar espacios extra
+    const category = row.querySelector("td:nth-child(4)").textContent.trim(); // Eliminar espacios extra
+    const price = row.querySelector("td:nth-child(5)").textContent.replace('$', '').trim(); // Eliminar espacios extra
 
     const editForm = document.querySelector(".edit-product");
     editForm.querySelector("input[name='id']").value = id;
@@ -65,7 +65,6 @@ function openEditProductForm(button) {
     editForm.querySelector("select[name='brand']").value = brand;
     editForm.querySelector("select[name='category']").value = category;
     editForm.querySelector("input[name='price']").value = price;
-    editForm.querySelector("input[name='stock']").value = stock;
 
     editForm.classList.add("is-open");
     editForm.scrollIntoView({ behavior: 'smooth' });
@@ -108,4 +107,40 @@ function setupCancelButtons() {
             editForm.classList.remove("is-open"); // Quitar la clase is-open del formulario de editar producto
         });
     }
+}
+
+function setupStockButtons() {
+    const increaseButtons = document.querySelectorAll(".increase-button"); // Botones para aumentar stock
+    const decreaseButtons = document.querySelectorAll(".decrease-button"); // Botones para disminuir stock
+    const increaseModal = document.querySelector(".increase-stock"); // Modal para aumentar stock
+    const decreaseModal = document.querySelector(".decrease-stock"); // Modal para disminuir stock
+
+    // Abrir modal para aumentar stock
+    increaseButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const itemId = button.closest("tr").id; // Obtener el ID del producto desde la fila
+            document.getElementById("increase-stock-id").value = itemId; // Asignar el ID al campo oculto
+            increaseModal.classList.add("is-open"); // Añadir la clase is-open para mostrar el modal
+            increaseModal.scrollIntoView({ behavior: "smooth" }); // Desplazar la vista hacia el modal
+        });
+    });
+
+    // Abrir modal para disminuir stock
+    decreaseButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const itemId = button.closest("tr").id; // Obtener el ID del producto desde la fila
+            document.getElementById("decrease-stock-id").value = itemId; // Asignar el ID al campo oculto
+            decreaseModal.classList.add("is-open"); // Añadir la clase is-open para mostrar el modal
+            decreaseModal.scrollIntoView({ behavior: "smooth" }); // Desplazar la vista hacia el modal
+        });
+    });
+
+    // Cerrar los modales
+    const closeModalButtons = document.querySelectorAll(".close-modal");
+    closeModalButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            increaseModal.classList.remove("is-open"); // Quitar la clase is-open para ocultar el modal
+            decreaseModal.classList.remove("is-open"); // Quitar la clase is-open para ocultar el modal
+        });
+    });
 }

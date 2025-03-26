@@ -2,30 +2,33 @@
 function generateTable() {
     require_once '../controllers/items.php';
 
-    
     $items = $ItemController->getItems();
 
     if ($items) {
         ?>
-            <?php foreach ($items as $item) : ?>
-                <tr id='<?php echo $item->ID; ?>'>
-                    <td><?php echo $item->CODE; ?></td>
-                    <td class="itemname"><?php echo $item->NAME; ?></td>
-                    <td><?php echo $item->BRAND; ?></td>
-                    <td><?php echo $item->CATEGORY; ?></td>
-                    <td class="price"><?php echo $item->PRICE; ?>$</td>
-                    <td><?php echo $item->STOCK; ?></td>
-                    <td class="actions">
-                        <button class="edit">Editar</button>
-                        <button class="delete" onclick="window.location.href = '../controllers/items.php?type=delete&id=<?php echo $item->ID; ?>'">Eliminar</button>
-                    </td>
-                </tr>
-            <?php endforeach;
+        <?php foreach ($items as $item) : ?>
+            <tr id='<?php echo $item->ID; ?>'>
+                <td><?php echo $item->CODE; ?></td>
+                <td class="itemname">
+                    <a href="itemHistory.php?id=<?php echo $item->ID; ?>"><?php echo $item->NAME; ?></a>
+                </td>
+                <td><?php echo $item->BRAND; ?></td>
+                <td><?php echo $item->category_name; ?></td> <!-- Mostrar el nombre de la categoría -->
+                <td class="price"><?php echo $item->PRICE; ?>$</td>
+                <td><?php echo $item->STOCK; ?></td>
+                <td class="actions">
+                    <button class="increase-button">&#8593</button>
+                    <button class="decrease-button">&#8595</button>
+                    <button class="edit">Editar</button>
+                    <button class="delete" onclick="window.location.href = '../controllers/items.php?type=delete&id=<?php echo $item->ID; ?>'">Eliminar</button>
+                </td>
+            </tr>
+        <?php endforeach;
     } else { ?>
         <tr>
-            <td>No hay productos guardados</td>
+            <td colspan="7">No hay productos guardados</td>
         </tr>
-        <?php
+    <?php
     }
 }
 ?>

@@ -3,6 +3,7 @@
     ensureLoggedIn();
     include_once 'items.php';
     require_once 'sidebar.php';
+    require_once '../controllers/categories.php'; // Incluir el controlador de categorías
 ?>
 
 <!DOCTYPE html>
@@ -69,10 +70,12 @@
 
                     <label for="category">Categoría:</label>
                     <select id="category" name="category" required>
-                        <option value="Aceites">Aceites</option>
-                        <option value="Amortiguadores">Amortiguadores</option>
-                        <option value="Filtros ">Filtros</option>
-                        <option value="Accesorios">Accesorios</option>
+                        <?php
+                        $categories = $categoryController->getCategories(); // Obtener las categorías
+                        foreach ($categories as $category) {
+                            echo "<option value='{$category->id_categoria}'>{$category->nombre_categoria}</option>";
+                        }
+                        ?>
                     </select>
 
                     <label for="price">Precio:</label>
@@ -108,20 +111,43 @@
 
                     <label for="category">Categoría:</label>
                     <select id="category" name="category" required>
-                        <option value="Categoria1">Categoria1</option>
-                        <option value="Categoria2">Categoria2</option>
-                        <option value="Categoria3">Categoria3</option>
-                        <option value="Accesorios">Accesorios</option>
+                        <?php
+                            $categories = $categoryController->getCategories(); // Obtener las categorías
+                            foreach ($categories as $category) {
+                                echo "<option value='{$category->id_categoria}'>{$category->nombre_categoria}</option>";
+                            }
+                        ?>
                     </select>
 
                     <label for="price">Precio:</label>
                     <input type="number" id="price" name="price" step="0.01" required>
 
-                    <label for="stock">Stock:</label>
-                    <input type="number" id="stock" name="stock" required>
-
                     <button type="submit">Confirmar</button>
                     <button type="button" class="cancelEdit">Cancelar</button>
+                </form>
+            </div>
+ 
+            <div class="increase-stock">
+                <form method="post" action="../controllers/items.php">
+                    <h2>Aumentar Stock</h2>
+                    <input type="hidden" name="type" value="increaseStock">
+                    <input type="hidden" name="id" id="increase-stock-id">
+                    <label for="increase-quantity">Cantidad:</label>
+                    <input type="number" name="quantity" id="increase-quantity" min="1" required>
+                    <button type="submit">Confirmar</button>
+                    <button type="button" class="close-modal">Cancelar</button>
+                </form>
+            </div>
+
+            <div class="decrease-stock">
+                <form method="post" action="../controllers/items.php">
+                    <h2>Disminuir Stock</h2>
+                    <input type="hidden" name="type" value="decreaseStock">
+                    <input type="hidden" name="id" id="decrease-stock-id">
+                    <label for="decrease-quantity">Cantidad:</label>
+                    <input type="number" name="quantity" id="decrease-quantity" min="1" required>
+                    <button type="submit">Confirmar</button>
+                    <button type="button" class="close-modal">Cancelar</button>
                 </form>
             </div>
         </main>

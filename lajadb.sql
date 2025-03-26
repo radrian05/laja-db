@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 25-03-2025 a las 04:21:33
+-- Tiempo de generación: 26-03-2025 a las 01:09:59
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -46,14 +46,15 @@ DROP TABLE IF EXISTS `historial`;
 CREATE TABLE IF NOT EXISTS `historial` (
   `id_historial` int NOT NULL AUTO_INCREMENT,
   `id_producto` int NOT NULL,
-  `user_id` int NOT NULL,
+  `user_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `nota` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `referencia` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `cantidad` int NOT NULL,
+  `stock_up` int DEFAULT NULL,
+  `stock_down` int DEFAULT NULL,
   PRIMARY KEY (`id_historial`),
   KEY `id_producto` (`id_producto`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -68,13 +69,13 @@ CREATE TABLE IF NOT EXISTS `items` (
   `CODE` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `BRAND` set('Kia','Hyundai','Chevrolet','Misc') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `CATEGORY` set('Aceites','Filtros','Amortiguadores','Accesorios') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `PRICE` double(10,2) DEFAULT '0.00',
   `STOCK` int DEFAULT '0',
+  `CATEGORY` int NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `index_name` (`NAME`),
   KEY `index_brand` (`BRAND`),
-  KEY `index_category` (`CATEGORY`)
+  KEY `fk_category` (`CATEGORY`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

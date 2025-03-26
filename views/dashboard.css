@@ -223,7 +223,7 @@ td{
     margin-bottom: 10px;
 }
 
-.edit-product, .add-product, .edit-category, .add-category, .add-user, .change-password {
+.edit-product, .add-product, .edit-category, .add-category, .add-user, .change-password, .increase-stock, .decrease-stock {
     display: none;
     background-color: white;
     padding: 0 10px 10px 10px;
@@ -238,16 +238,16 @@ td{
     max-width: 550px;
 }
 
-.edit-product.is-open, .add-product.is-open, .edit-category.is-open, .add-category.is-open, .add-user.is-open, .change-password.is-open {
+.edit-product.is-open, .add-product.is-open, .edit-category.is-open, .add-category.is-open, .add-user.is-open, .change-password.is-open, .increase-stock.is-open, .decrease-stock.is-open {
     display: block;
 }
 
-.edit-product form, .add-product form, .edit-category form, .add-category form, .add-user form, .change-password form {
+.edit-product form, .add-product form, .edit-category form, .add-category form, .add-user form, .change-password form, .increase-stock form, .decrease-stock form {
     display: flex;
     flex-direction: column;
 }
 
-.edit-product label, .add-product label, .edit-category label, .add-category label, .add-user label, .change-password label {
+.edit-product label, .add-product label, .edit-category label, .add-category label, .add-user label, .change-password label, .increase-stock label, .decrease-stock label {
     margin-top: 10px;
     font-weight: bold;
 }
@@ -269,7 +269,13 @@ td{
 .add-user button,
 .change-password input,
 .change-password select,
-.change-password button { 
+.change-password button, 
+.increase-stock input,
+.increase-stock select,
+.increase-stock button,
+.decrease-stock input,
+.decrease-stock select,
+.decrease-stock button { 
     margin-top: 5px;
     padding: 10px;
     border: 1px solid #ddd;
@@ -277,7 +283,7 @@ td{
     font-size: 16px;
 }
 
-.edit-product button, .add-product button, .edit-category button, .add-category button, .add-user button, .change-password button {
+.edit-product button, .add-product button, .edit-category button, .add-category button, .add-user button, .change-password button, .increase-stock button, .decrease-stock button {
     margin-top: 20px;
     background-color: #f6be08;
     color: rgb(0, 0, 0);
@@ -288,7 +294,7 @@ td{
 
 
 
-.edit-product button:hover, .add-product button:hover, .edit-category button:hover, .add-category button:hover, .add-user button:hover {
+.edit-product button:hover, .add-product button:hover, .edit-category button:hover, .add-category button:hover, .add-user button:hover, .change-password button:hover, .increase-stock button:hover, .decrease-stock button:hover {
     background-color: #f6be08;
 }
 
