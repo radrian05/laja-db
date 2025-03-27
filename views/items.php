@@ -20,7 +20,7 @@ function generateTable() {
                     <button class="increase-button">&#8593</button>
                     <button class="decrease-button">&#8595</button>
                     <button class="edit">Editar</button>
-                    <button class="delete" onclick="window.location.href = '../controllers/items.php?type=delete&id=<?php echo $item->ID; ?>'">Eliminar</button>
+                    <button class="delete" onclick="if(confirm('¿Estás seguro de que deseas eliminar este elemento?')) { window.location.href = '../controllers/items.php?type=delete&id=<?php echo $item->ID; ?>'; }">Eliminar</button>
                 </td>
             </tr>
         <?php endforeach;

@@ -20,6 +20,7 @@
         <main>
             <?php flash('add_item') ?> 
             <?php flash('delete_item') ?>
+            <?php flash('product_message') ?>
 
             <?php generateSidebar(basename($_SERVER['PHP_SELF'])); ?>
 
@@ -29,39 +30,40 @@
                 <h2>Lista de Productos</h2>
                 <div class="button-container">
                     <button id="toggle-currency">Ver en Bolívares</button>
-                    <button class="add">+</button>
+                    <button onclick="window.print()">Imprimir</button>
+                    <button class="add">+</button>   
                 </div>
-                <table>
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Marca</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php generateTable(); ?>
-                </tbody>
-            </table>
+                <table aria-label="Lista de productos">
+                    <thead>
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Categoría</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php generateTable(); ?>
+                    </tbody>
+                </table>
             </section>
 
             <section class="add-product">
-                <h1>Añadir Nuevo Producto</h1>
-                <form action="../controllers/items.php" method="post">
+                <h1 id="addProductTitle">Añadir Nuevo Producto</h1>
+                <form action="../controllers/items.php" method="post" aria-labelledby="addProductTitle">
                     <input type="hidden" name="type" value="addItem">
 
                     <label for="code">Código del Producto:</label>
-                    <input type="text" id="code" name="code" required>
+                    <input type="text" id="code" name="code" aria-label="Código del Producto" required>
 
                     <label for="name">Nombre del Producto:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" aria-label="Nombre del Producto" required>
 
                     <label for="brand">Marca:</label>
-                    <select id="brand" name="brand" required>
+                    <select id="brand" name="brand" aria-label="Marca" required>
                         <option value="Kia">Kia</option>
                         <option value="Hyundai">Hyundai</option>
                         <option value="Chevrolet">Chevrolet</option>
@@ -69,7 +71,7 @@
                     </select>
 
                     <label for="category">Categoría:</label>
-                    <select id="category" name="category" required>
+                    <select id="category" name="category" aria-label="Categoría" required>
                         <?php
                         $categories = $categoryController->getCategories(); // Obtener las categorías
                         foreach ($categories as $category) {
@@ -79,15 +81,14 @@
                     </select>
 
                     <label for="price">Precio:</label>
-                    <input type="number" id="price" name="price" step="0.01" required>
+                    <input type="number" id="price" name="price" step="0.01" aria-label="Precio" required>
 
                     <label for="stock">Stock:</label>
-                    <input type="number" id="stock" name="stock" required>
+                    <input type="number" id="stock" name="stock" aria-label="Stock" required>
 
-                    <button type="submit">Añadir Producto</button>
-                    <button type="button" class="cancelAdd">Cancelar</button>
+                    <button type="submit" aria-label="Añadir producto">Añadir Producto</button>
+                    <button type="button" class="cancelAdd" aria-label="Cancelar añadir producto">Cancelar</button>
                 </form>
-                
             </section>
 
             <div class="edit-product">

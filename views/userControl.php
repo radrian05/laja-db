@@ -29,54 +29,57 @@
                 <div class="button-containter">
                     <button class="add">+</button>
                 </div>
-                <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Nombre de usuario</th>
-                        <th>Contraseña</th>
-                        <th>Administrador</th>
-                        <th>Activo</th>
-                        <th>Acciones</tr>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php generateTable(); ?>
-                </tbody>
+                <table aria-label="Lista de usuarios">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Nombre de usuario</th>
+                            <th scope="col">Contraseña</th>
+                            <th scope="col">Administrador</th>
+                            <th scope="col">Activo</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php generateTable(); ?>
+                    </tbody>
+                </table>
             </section>
             
             <div class="add-user">
-                <form method="post" action="../controllers/Users.php">
-                    <h1>Registro de Usuario</h1>
+                <form method="post" action="../controllers/Users.php" aria-labelledby="registerUserTitle">
+                    <h1 id="registerUserTitle">Registro de Usuario</h1>
                     <input type="hidden" name="type" value="register">
-                    <input type="text" name="userName" placeholder="Nombre y Apellido...">
-                    <input type="text" name="userUid" placeholder="Nombre de Usuario...">
-                    <input type="password" name="userPwd" placeholder="Contraseña...">
-                    <input type="password" name="pwdRepeat" placeholder="Repetir Contraseña">
-                    <button type="submit" name="submit">Listo</button>
-                    <button type="button" class="cancelAdd">Cancelar</button>
+                    
+                    <input type="text" name="userName" placeholder="Nombre y Apellido..." aria-label="Nombre y Apellido" required>
+                    <input type="text" name="userUid" placeholder="Nombre de Usuario..." aria-label="Nombre de Usuario" required>
+                    <input type="password" name="userPwd" placeholder="Contraseña..." aria-label="Contraseña" required>
+                    <input type="password" name="pwdRepeat" placeholder="Repetir Contraseña" aria-label="Repetir Contraseña" required>
+                    <input type="text" name="secretWord" placeholder="Palabra secreta..." aria-label="Palabra secreta" required>
+                    
+                    <button type="submit" name="submit" aria-label="Registrar usuario">Listo</button>
+                    <button type="button" class="cancelAdd" aria-label="Cancelar registro de usuario">Cancelar</button>
                 </form>
             </div>
 
             <div class="change-password">
-                <form method="post" action="../controllers/Users.php">
-                    <h1>Cambiar Contraseña</h1>
+                <form method="post" action="../controllers/Users.php" aria-labelledby="changePasswordTitle">
+                    <h1 id="changePasswordTitle">Cambiar Contraseña</h1>
                     <input type="hidden" name="type" value="changePassword">
                     <input type="hidden" name="userId" value=" ">
-                    <input type="password" name="userPwd" placeholder="Contraseña nueva" required>
-                    <input type="password" name="pwdRepeat" placeholder="Repetir Contraseña" required>
 
-                    <button type="submit" name="submit">Listo</button>
-                    <button type="button" class="cancelChange">Cancelar</button>
+                    <input type="password" name="userPwd" placeholder="Contraseña nueva" aria-label="Contraseña nueva" required>
+                    <input type="password" name="pwdRepeat" placeholder="Repetir Contraseña" aria-label="Repetir Contraseña" required>
+                    <?php if ($_SESSION['IS_ADMIN'] != 1){
+                        echo '<input type="text" name="secretword" placeholder="Palabra secreta..." aria-label="Palabra secreta">';
+                    }?>   
+                    <button type="submit" name="submit" aria-label="Confirmar cambio de contraseña">Listo</button>
+                    <button type="button" class="cancelChange" aria-label="Cancelar cambio de contraseña">Cancelar</button>
                 </form>
             </div>
            
         </main>
-
-        <footer>
-            <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/radrian05/laja-db">LAJA DB</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/radrian05">Adrian Rojas, Alvaro Lara, Juan Jordan, Leizzy Goitia</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC-ND 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1" alt=""></a></p>
-        </footer>
 
         <script src="sidebar.js"></script>
         <script src="userControl.js"></script>

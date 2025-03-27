@@ -22,7 +22,9 @@
             <img class="logo" src="logo.jpeg">
             <h1 id="index-text">Bienvenido, <?php echo explode(" ", $_SESSION['userName'])[0]; ?> </h1>
             
-            <?php generateExchangeRateField(); ?>
+            <div class="exchange-rate">
+                <?php generateExchangeRateField(); ?>
+            </div>
         </main>
 
         <footer>

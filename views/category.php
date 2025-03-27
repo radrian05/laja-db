@@ -24,16 +24,16 @@
                 <h2>Lista de Categorías</h2>
                 <?php flash('category_message'); ?>
                 <div class="button-container">
-                    <button class="add">+</button>
+                    <button class="add" aria-label="Añadir nueva categoría">+</button>
                 </div>
 
-                <table>
+                <table aria-label="Lista de categorías">
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,12 +42,14 @@
                 </table>
                 <div class="add-category">
                     <h2>Añadir Categoría</h2>
-                    <form action="../controllers/categories.php" method="post">
+                    <form action="../controllers/categories.php" method="post" aria-labelledby="addCategoryTitle">
                         <input type="hidden" name="type" value="addCategory">
-                        <input type="text" name="nombre_categoria" placeholder="Nombre de la categoría" required>
-                        <input type="text" name="descripcion_categoria" placeholder="Descripción de la categoría" required>
-                        <button type="submit">Añadir</button>
-                        <button class="cancelAdd">Cancelar</button>
+                        <label for="nombre_categoria">Nombre de la categoría</label>
+                        <input type="text" id="nombre_categoria" name="nombre_categoria" placeholder="Nombre de la categoría" aria-label="Nombre de la categoría" required>
+                        <label for="descripcion_categoria">Descripción de la categoría</label>
+                        <input type="text" id="descripcion_categoria" name="descripcion_categoria" placeholder="Descripción de la categoría" aria-label="Descripción de la categoría" required>
+                        <button type="submit" aria-label="Añadir categoría">Añadir</button>
+                        <button class="cancelAdd" aria-label="Cancelar añadir categoría">Cancelar</button>
                     </form>
                 </div>
 

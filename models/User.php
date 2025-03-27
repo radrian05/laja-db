@@ -38,23 +38,20 @@ class User {
     }
 
     //Registro del usuario en la base de datos
-    public function register($data){
-        $this->db->query('INSERT INTO users (userName, userUid, userPwd, IS_ADMIN) VALUES (:name, :Uid, :password, :is_admin)');
+    public function register($data) {
+        $this->db->query('INSERT INTO users (userName, userUid, userPwd, IS_ADMIN, secretWord) VALUES (:name, :Uid, :password, :is_admin, :secretWord)');
         
-        //bind
+        // Bind
         $this->db->bind(':name', $data['userName']);
         $this->db->bind(':Uid', $data['userUid']);
         $this->db->bind(':password', $data['userPwd']);
         $this->db->bind(':is_admin', $data['IS_ADMIN']);
-    
-        //Ejecutar
-        if($this->db->execute()){
-            return true;
-        }else{
-            return false;
-        }
+        $this->db->bind(':secretWord', $data['secretWord']);
+        
+        // Ejecutar
+        return $this->db->execute();
     }
-    
+
     //login
     public function login($name, $password){
         $row = $this->findUserByUsername($name);
@@ -93,6 +90,18 @@ class User {
         $this->db->query('UPDATE users SET IS_ACTIVE = 1 WHERE userId = :userId');
         $this->db->bind(':userId', $userId);
         return $this->db->execute();
+    }
+
+    // Verificar la palabra secreta
+    public function verifySecretWord($userId, $secretWord) {
+        $this->db->query('SELECT secretWord FROM users WHERE userId = :userId');
+        $this->db->bind(':userId', $userId);
+        $row = $this->db->single();
+
+        if ($row && $row->secretWord === $secretWord) {
+            return true;
+        }
+        return false;
     }
         
 }

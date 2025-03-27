@@ -21,21 +21,24 @@
             <div class="logo">
                 <img src="logo.jpeg" alt="Logo">
             </div>
-            <h1>Inventario</h1>
-            <form method="post" action="../controllers/Users.php">
-            <input type="hidden" name="type" value="login">
+            <h1>LAJA-DB</h1>
+            <form method="post" action="../controllers/Users.php" aria-label="Iniciar Sesión">
+                <input type="hidden" name="type" value="login">
+
                 <label for="name">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-user"></i> Nombre de Usuario
                 </label>
-                <input type="text" name="name" placeholder="Nombre de Usuario...">
+                <input type="text" id="name" name="name" placeholder="Nombre de Usuario..." aria-label="Nombre de Usuario" required>
 
                 <label for="userPwd">
-                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-lock"></i> Contraseña
                 </label>
-                <input type="password" name="userPwd" placeholder="Contraseña...">
+                <input type="password" id="userPwd" name="userPwd" placeholder="Contraseña..." aria-label="Contraseña" required>
+
                 <?php flash('login') ?>
-                <button type="submit" name="submit">Iniciar Sesión</button>
+                <button type="submit" name="submit" aria-label="Iniciar sesión">Iniciar Sesión</button>
             </form>
+            <a href="recover_password.php" class="recover-password-link" aria-label="Recuperar contraseña">¿Olvidaste tu contraseña?</a>
         </div>
 
         <footer>
@@ -43,4 +46,4 @@
         </footer>
 
     </body>
-    </html>
+</html>

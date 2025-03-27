@@ -10,18 +10,18 @@ function generateSidebar($current_page) {
         '../controllers/Users.php?q=logout' => 'Cerrar Sesión'
     ];
 
-    echo '<div class="sidebar">';
-    echo '<span class="closeSidebarButton">&times;</span>';
+    echo '<div class="sidebar" role="navigation" aria-label="Barra lateral">';
+    echo '<span class="closeSidebarButton" role="button" aria-label="Cerrar barra lateral">&times;</span>';
     echo '<ul>';
     foreach ($pages as $file => $name) {
         if ($file === $current_page) {
-            echo "<li><a href='$file' class='active'>$name</a></li>";
-        }else {
+            echo "<li><a href='$file' class='active' aria-current='page'>$name</a></li>";
+        } else {
             echo "<li><a href='$file'>$name</a></li>";
         }
     }
     echo '</ul>';
     echo '</div>';
-    echo '<button class="toggle" tabindex="0" aria-label="Abrir Sidebar">&#9776;</button>'; // Botón toggle
+    echo '<button class="toggle" aria-label="Abrir barra lateral">&#9776;</button>'; // Botón toggle
 }
 ?>

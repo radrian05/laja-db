@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 26-03-2025 a las 01:09:59
+-- Tiempo de generación: 27-03-2025 a las 02:22:27
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -92,11 +92,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `userPwd` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `IS_ADMIN` tinyint(1) NOT NULL DEFAULT '0',
   `IS_ACTIVE` tinyint(1) NOT NULL DEFAULT '1',
+  `secretWord` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`userId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `users` (`userId`, `userName`, `userUid`, `userPwd`, `IS_ADMIN`, `IS_ACTIVE`) VALUES
-(1, 'Admin', 'admin', '$2y$10$O7XPw/uf9bIewou6W1cAbuP8iYMmQ9flqco5F1wnFJKxTouOf58Hm', 1, 1);
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`userId`, `userName`, `userUid`, `userPwd`, `IS_ADMIN`, `IS_ACTIVE`, `secretWord`) VALUES
+(1, 'Admin', 'admin', '$2y$10$O7XPw/uf9bIewou6W1cAbuP8iYMmQ9flqco5F1wnFJKxTouOf58Hm', 1, 1, NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

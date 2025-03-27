@@ -110,7 +110,10 @@ button {
     background-color: lightgrey;
 }
 
-/* Estilo para el botón de cerrar la sidebar */
+.itemname a {
+    color: black !important;
+}
+
 .closeSidebarButton {
     all: unset; /* Elimina los estilos predeterminados del botón */
     position: absolute;
@@ -193,10 +196,11 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-size: small;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid rgb(163, 160, 160);
 }
 
 th, td {
@@ -205,7 +209,7 @@ th, td {
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: rgb(216, 216, 216);
 }
 
 td{
@@ -221,6 +225,40 @@ td{
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    gap: 10px;
+}
+
+.button-container button {
+    margin-left: 0; /* Asegura que todos los botones estén alineados a la izquierda */
+}
+
+.button-container .add {
+    margin-left: auto; /* Empuja el botón "add" hacia la derecha */
+}
+
+.product-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 10px; /* Espacio entre columnas y filas */
+    background-color: #f9f9f9; /* Fondo claro */
+    border: 1px solid rgb(163, 160, 160);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px; /* Espaciado interno */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    margin-bottom: 20px; /* Separación con la siguiente sección */
+}
+
+.product-details p {
+    margin: 0; /* Eliminar márgenes */
+    font-size: 14px; /* Reducir el tamaño de la fuente */
+    line-height: 1.4; /* Espaciado entre líneas */
+    color: #333; /* Color del texto */
+}
+
+.product-details p strong {
+    font-weight: bold;
+    color: #000; /* Resaltar los títulos */
 }
 
 .edit-product, .add-product, .edit-category, .add-category, .add-user, .change-password, .increase-stock, .decrease-stock {
@@ -291,9 +329,6 @@ td{
     cursor: pointer;
 }
 
-
-
-
 .edit-product button:hover, .add-product button:hover, .edit-category button:hover, .add-category button:hover, .add-user button:hover, .change-password button:hover, .increase-stock button:hover, .decrease-stock button:hover {
     background-color: #f6be08;
 }
@@ -305,4 +340,64 @@ footer, footer a:visited{
     width: 100%;
     bottom: 0;
     padding: 5px;
+}
+
+.exchange-rate {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgb(163, 160, 160);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+
+    /* Centrar el elemento dentro de su contenedor */
+    position: absolute; /* Posicionamiento absoluto */
+    top: 50%; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Ajustar el punto de referencia al centro */
+}
+.exchange-rate h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.exchange-rate label {
+    display: block;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.exchange-rate input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.exchange-rate input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745; 
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.exchange-rate input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.exchange-rate button{
+    background-color: #f6be08;
+    color: rgb(0, 0, 0);
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
 }

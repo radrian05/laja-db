@@ -17,6 +17,7 @@ class Users{
         $_POST['userUid'] = htmlspecialchars(trim($_POST['userUid']));
         $_POST['userPwd'] = htmlspecialchars(trim($_POST['userPwd']));
         $_POST['pwdRepeat'] = htmlspecialchars(trim($_POST['pwdRepeat']));
+        $_POST['secretWord'] = htmlspecialchars(trim($_POST['secretWord']));
 
         //init data
         $data = [
@@ -24,11 +25,12 @@ class Users{
             'userUid' => $_POST['userUid'],
             'userPwd' => $_POST['userPwd'],
             'pwdRepeat' => $_POST['pwdRepeat'],
+            'secretWord' => $_POST['secretWord'],
             'IS_ADMIN' => 0 // Valor predeterminado para nuevos usuarios
         ];
 
         //validar data
-        if(empty($data['userName']) || empty($data['userUid']) || empty($data['userPwd']) || empty($data['pwdRepeat'])){
+        if(empty($data['userName']) || empty($data['userUid']) || empty($data['userPwd']) || empty($data['pwdRepeat']) || empty($data['secretWord'])){
             //algo de un error
             flash("register", "Por favor llene todos los campos");
             redirect("../views/userControl.php");
@@ -62,9 +64,11 @@ class Users{
 
         //Registrar Usuario
         if($this->userModel->register($data)){
+            flash("register", "Usuario registrado correctamente");
             redirect("../views/userControl.php");
         }else{
-            die("Algo salio mal...");
+            flash("register", "Error al registrar el usuario");
+            redirect("../views/userControl.php");
         }
     }
 
@@ -141,7 +145,7 @@ class Users{
     
    public function changePassword() {
     // Verificar si el usuario actual tiene permisos de administrador
-    if (!isset($_SESSION['userId']) || !isset($_SESSION['IS_ADMIN']) || $_SESSION['IS_ADMIN'] != 1) {
+    if (!isset($_SESSION['userId']) || !isset($_SESSION['IS_ADMIN'])) {
         flash("user_message", "No tiene permisos para actualizar contraseñas");
         redirect("../views/userControl.php");
     }
@@ -150,6 +154,7 @@ class Users{
     $_POST['userId'] = htmlspecialchars(trim($_POST['userId']));
     $_POST['userPwd'] = htmlspecialchars(trim($_POST['userPwd']));
     $_POST['pwdRepeat'] = htmlspecialchars(trim($_POST['pwdRepeat']));
+    $_POST['secretWord'] = htmlspecialchars(trim($_POST['secretWord']));
 
     // Validar datos
     if (empty($_POST['userId']) || empty($_POST['userPwd']) || empty($_POST['pwdRepeat'])) {
@@ -167,6 +172,14 @@ class Users{
     if (strlen($_POST['userPwd']) < 8) {
         flash("user_message", "La contraseña debe tener al menos 8 caracteres");
         redirect("../views/userControl.php");
+    }
+
+    // Verificar la palabra secreta si el usuario no es administrador
+    if ($_SESSION['IS_ADMIN'] != 1) {
+        if (empty($_POST['secretWord']) || !$this->userModel->verifySecretWord($_POST['userId'], $_POST['secretWord'])) {
+            flash("user_message", "Palabra secreta incorrecta");
+            redirect("../views/userControl.php");
+        }
     }
 
     // Actualizar la contraseña
@@ -206,6 +219,46 @@ class Users{
     }
     redirect("../views/userControl.php");
    }
+
+   public function recoverPassword() {
+    // Sanitizar datos del formulario
+    $_POST['userUid'] = htmlspecialchars(trim($_POST['userUid']));
+    $_POST['secretWord'] = htmlspecialchars(trim($_POST['secretWord']));
+    $_POST['newPassword'] = htmlspecialchars(trim($_POST['newPassword']));
+    $_POST['confirmPassword'] = htmlspecialchars(trim($_POST['confirmPassword']));
+
+    // Validar datos
+    if (empty($_POST['userUid']) || empty($_POST['secretWord']) || empty($_POST['newPassword']) || empty($_POST['confirmPassword'])) {
+        flash("recover_password", "Por favor, complete todos los campos");
+        redirect("../views/recover_password.php");
+    }
+
+    // Validar que las contraseñas coincidan
+    if ($_POST['newPassword'] !== $_POST['confirmPassword']) {
+        flash("recover_password", "Las contraseñas no coinciden");
+        redirect("../views/recover_password.php");
+    }
+
+    // Validar longitud de la nueva contraseña
+    if (strlen($_POST['newPassword']) < 8) {
+        flash("recover_password", "La contraseña debe tener al menos 8 caracteres");
+        redirect("../views/recover_password.php");
+    }
+
+    // Verificar la palabra secreta
+    $user = $this->userModel->findUserByUsername($_POST['userUid']);
+    if ($user && $user->secretWord === $_POST['secretWord']) {
+        // Actualizar la contraseña en la base de datos
+        $this->userModel->updatePassword($user->userId, $_POST['newPassword']);
+
+        // Mostrar mensaje de éxito
+        flash("recover_password", "Contraseña actualizada correctamente. Ahora puede iniciar sesión.");
+        redirect("../views/login.php");
+    } else {
+        flash("recover_password", "Nombre de usuario o palabra secreta incorrectos");
+        redirect("../views/recover_password.php");
+    }
+   }
 }
     
 $init = new Users;
@@ -222,6 +275,9 @@ if (php_sapi_name() !== 'cli') {
                 break;
             case 'login':
                 $init->login();
+                break;
+            case 'recoverPassword':
+                $init->recoverPassword();
                 break;
         }
     } elseif (isset($_GET['q'])) {
