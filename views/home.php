@@ -19,7 +19,6 @@ require_once 'set_exchange_rate.php';
     <div class="container-fluid"> <!--CONTENIDO AQUI-->
         <div class="col min-vh-100 p-4">
             <h1>Bienvenido</h1>
-            <?php var_dump($_SESSION);?>
             <?php generateExchangeRateField(); ?>
         </div>
     </div>
