@@ -1,89 +1,128 @@
 <?php
-    include_once '../helpers/session_helper.php';
-    ensureLoggedIn();
-    require_once 'sidebar.php';
-    require_once 'users.php';
+include_once '../helpers/session_helper.php';
+ensureLoggedIn();
+require_once 'users.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viffewport" content="width=device-width, initial-scale=1.0">
-        <title>Usuarios</title>
-        <link rel="stylesheet" href="dashboard.css" type="text/css">
-    </head>
+<!doctype html>
+<html lang="en">
 
-    
+<head>
+    <?php include_once 'head.php'; ?> <!--head-->
+    <title>Control de Usuarios</title>
+</head>
 
-    <body>
-        <main>
-        <?php flash('user_message')?>
-        <?php flash('register') ?>
-        <?php generateSidebar(basename($_SERVER['PHP_SELF'])); ?>
-            <img class="logo" src="logo.jpeg">
-            <h1 id="index-text">Bienvenido, <?php echo explode(" ", $_SESSION['userName'])[0]; ?> </h1>
-            <section class="user-list">
-                <h2>Control de Usuarios</h2>
-                <div class="button-containter">
-                    <button class="add">+</button>
+<body>
+    <?php include_once 'nav.php'; ?> <!--navbar y sidebar-->
+
+    <div class="container-fluid"> <!--CONTENIDO AQUI-->
+        <div class="col min-vh-100 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1>Control de Usuarios</h1>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Añadir Usuario</button>
+            </div>
+            <?php generateTable(); ?>
+        </div>
+    </div>
+
+    <!-- Modal de Registro de Usuario -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="registerUserTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="registerUserTitle">Registro de Usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <table aria-label="Lista de usuarios">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Nombre de usuario</th>
-                            <th scope="col">Contraseña</th>
-                            <th scope="col">Administrador</th>
-                            <th scope="col">Activo</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php generateTable(); ?>
-                    </tbody>
-                </table>
-            </section>
-            
-            <div class="add-user">
-                <form method="post" action="../controllers/Users.php" aria-labelledby="registerUserTitle">
-                    <h1 id="registerUserTitle">Registro de Usuario</h1>
-                    <input type="hidden" name="type" value="register">
-                    
-                    <input type="text" name="userName" placeholder="Nombre y Apellido..." aria-label="Nombre y Apellido" required>
-                    <input type="text" name="userUid" placeholder="Nombre de Usuario..." aria-label="Nombre de Usuario" required>
-                    <input type="password" name="userPwd" placeholder="Contraseña..." aria-label="Contraseña" required>
-                    <input type="password" name="pwdRepeat" placeholder="Repetir Contraseña" aria-label="Repetir Contraseña" required>
-                    <input type="text" name="secretWord" placeholder="Palabra secreta..." aria-label="Palabra secreta" required>
-                    
-                    <button type="submit" name="submit" aria-label="Registrar usuario">Listo</button>
-                    <button type="button" class="cancelAdd" aria-label="Cancelar registro de usuario">Cancelar</button>
-                </form>
+                <div class="modal-body">
+                    <form method="post" action="../controllers/Users.php">
+                        <input type="hidden" name="type" value="register">
+
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Nombre y Apellido</label>
+                            <input type="text" id="userName" name="userName" class="form-control" placeholder="Nombre y Apellido..." aria-label="Nombre y Apellido" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userUid" class="form-label">Nombre de Usuario</label>
+                            <input type="text" id="userUid" name="userUid" class="form-control" placeholder="Nombre de Usuario..." aria-label="Nombre de Usuario" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPwd" class="form-label">Contraseña</label>
+                            <input type="password" id="userPwd" name="userPwd" class="form-control" placeholder="Contraseña..." aria-label="Contraseña" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pwdRepeat" class="form-label">Repetir Contraseña</label>
+                            <input type="password" id="pwdRepeat" name="pwdRepeat" class="form-control" placeholder="Repetir Contraseña" aria-label="Repetir Contraseña" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="secretWord" class="form-label">Palabra Secreta</label>
+                            <input type="text" id="secretWord" name="secretWord" class="form-control" placeholder="Palabra secreta..." aria-label="Palabra secreta" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" aria-label="Registrar usuario">Registrar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Cancelar">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="change-password">
-                <form method="post" action="../controllers/Users.php" aria-labelledby="changePasswordTitle">
-                    <h1 id="changePasswordTitle">Cambiar Contraseña</h1>
-                    <input type="hidden" name="type" value="changePassword">
-                    <input type="hidden" name="userId" value=" ">
+    <!-- Modal de Cambiar Contraseña -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="changePasswordTitle">Cambiar Contraseña</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="../controllers/Users.php">
+                        <input type="hidden" name="type" value="changePassword">
+                        <input type="hidden" id="change-userId" name="userId" value="">
 
-                    <input type="password" name="userPwd" placeholder="Contraseña nueva" aria-label="Contraseña nueva" required>
-                    <input type="password" name="pwdRepeat" placeholder="Repetir Contraseña" aria-label="Repetir Contraseña" required>
-                    <?php if ($_SESSION['IS_ADMIN'] != 1){
-                        echo '<input type="text" name="secretword" placeholder="Palabra secreta..." aria-label="Palabra secreta">';
-                    }?>   
-                    <button type="submit" name="submit" aria-label="Confirmar cambio de contraseña">Listo</button>
-                    <button type="button" class="cancelChange" aria-label="Cancelar cambio de contraseña">Cancelar</button>
-                </form>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Contraseña Nueva</label>
+                            <input type="password" id="newPassword" name="userPwd" class="form-control" placeholder="Contraseña nueva" aria-label="Contraseña nueva" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="repeatPassword" class="form-label">Repetir Contraseña</label>
+                            <input type="password" id="repeatPassword" name="pwdRepeat" class="form-control" placeholder="Repetir Contraseña" aria-label="Repetir Contraseña" required>
+                        </div>
+                        <?php if ($_SESSION['IS_ADMIN'] != 1): ?>
+                            <div class="mb-3">
+                                <label for="secretWordChange" class="form-label">Palabra Secreta</label>
+                                <input type="text" id="secretWordChange" name="secretword" class="form-control" placeholder="Palabra secreta..." aria-label="Palabra secreta">
+                            </div>
+                        <?php endif; ?>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" aria-label="Confirmar cambio de contraseña">Confirmar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Cancelar">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-           
-        </main>
+        </div>
+    </div>
 
-        <script src="sidebar.js"></script>
-        <script src="userControl.js"></script>
-        <script src="alert.js"></script>
-    </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setupChangePasswordButtons();
+        });
+
+        function setupChangePasswordButtons() {
+            // Seleccionar todos los botones que abren el modal de cambiar contraseña
+            const changePasswordButtons = document.querySelectorAll(".changePassword");
+
+            changePasswordButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const userId = button.getAttribute("data-id"); // Obtener la ID del usuario desde el atributo data-id
+                    const changePasswordModal = document.querySelector("#changePasswordModal"); // Seleccionar el modal
+                    const userIdInput = changePasswordModal.querySelector("#change-userId"); // Seleccionar el campo input hidden
+                    userIdInput.value = userId; // Asignar la ID al campo input hidden
+                });
+            });
+        }
+    </script>
+</body>
+
 </html>
-

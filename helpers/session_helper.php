@@ -3,26 +3,25 @@ if(!isset($_SESSION)){
     session_start();
 }
 
-function flash($name = '', $message = '', $class = 'alert'){
-    if(!empty($name)){
-        if(!empty($name)){
-            if(!empty($message) && empty($_SESSION[$name])){
-                $_SESSION[$name] = $message;
-                $_SESSION[$name.'class'] = $class;
-            }else if(empty($message) && !empty($_SESSION[$name])){
-                $class = !empty($_SESSION[$name. '_class']) ? $_SESSION[$name. '_class'] : $class;
-                echo '<div class="'.$class.'">
-                        <span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>
-                        '.$_SESSION[$name].'
-                      </div>';
-                      
-                unset($_SESSION[$name]);
-                unset($_SESSION[$name.'_class']);
-            }
-       }
+function flash($name = '', $message = '', $class = 'alert alert-primary') {
+    if (!empty($name)) {
+        if (!empty($message) && empty($_SESSION[$name])) {
+            // Guardar el mensaje y la clase en la sesión
+            $_SESSION[$name] = $message;
+            $_SESSION[$name . '_class'] = $class;
+        } elseif (empty($message) && !empty($_SESSION[$name])) {
+            // Mostrar el mensaje si existe en la sesión
+            $class = !empty($_SESSION[$name . '_class']) ? $_SESSION[$name . '_class'] : 'alert alert-primary';
+            echo '<div class="' . $class . ' alert-dismissible fade show" role="alert">
+                    ' . $_SESSION[$name] . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>';
+            // Eliminar el mensaje de la sesión
+            unset($_SESSION[$name]);
+            unset($_SESSION[$name . '_class']);
+        }
     }
 }
-
 
 function redirect($location) {
     if (php_sapi_name() === 'cli') {

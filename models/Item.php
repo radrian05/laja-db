@@ -10,13 +10,16 @@ class Item {
 
     public function getItems() {
         $this->db->query('
-            SELECT items.*, categorias.nombre_categoria AS category_name
+            SELECT items.*, 
+                   categorias.nombre_categoria AS category_name, 
+                   brand.name_brand AS name_brand
             FROM items
             JOIN categorias ON items.CATEGORY = categorias.id_categoria
+            JOIN brand ON items.BRAND = brand.id_brand
         ');
         return $this->db->resultSet();
     }
-
+    
     public function getItemById($id) {
         $this->db->query('
             SELECT items.*, categorias.nombre_categoria AS category_name

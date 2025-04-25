@@ -1,0 +1,11 @@
+.custom-sidebar {
+    width: 15%; /* Default width for larger screens */
+}
+
+
+@media (max-width: 576px) {
+    .custom-sidebar {
+        width: 90%;
+    }
+}
+

@@ -1,0 +1,26 @@
+// Include any default variable overrides here (though functions won't be available)
+
+$primary: #f6be08;
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Then add additional custom code here
+body {
+    font-family: Arial, sans-serif;
+}
+
+.btn {
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+[data-bs-theme="dark"] { //propiedades para el modo oscuro
+    .btn-outline-primary:hover {
+        color: black !important; 
+    }
+}
+
+[data-bs-theme="light"] {
+    .btn-outline-primary {
+        color: black !important; 
+    }    
+}

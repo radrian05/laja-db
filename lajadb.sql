@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 27-03-2025 a las 02:22:27
+-- Tiempo de generación: 25-04-2025 a las 05:48:22
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `lajadb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `brand`
+--
+
+DROP TABLE IF EXISTS `brand`;
+CREATE TABLE IF NOT EXISTS `brand` (
+  `id_brand` int NOT NULL AUTO_INCREMENT,
+  `name_brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description_brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`id_brand`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -68,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `CODE` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `BRAND` set('Kia','Hyundai','Chevrolet','Misc') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `BRAND` int NOT NULL,
   `PRICE` double(10,2) DEFAULT '0.00',
   `STOCK` int DEFAULT '0',
   `CATEGORY` int NOT NULL,

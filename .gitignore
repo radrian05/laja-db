@@ -1,3 +1,6 @@
 /views/logo.jpeg
 /views/fondo.jpeg
-
+package.json
+package-lock.json
+/node_modules/
+/views/img/
