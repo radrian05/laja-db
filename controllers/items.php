@@ -31,7 +31,7 @@ class ItemController {
         // Validar data
         if (empty($_POST['code']) || empty($_POST['name']) || empty($_POST['brand']) || empty($_POST['category']) || empty($_POST['price']) || empty($_POST['stock'])) {
             flash('add_item', 'Por favor, complete todos los campos');
-            redirect('dashboard.php');
+            redirect('../views/dashboard.php');
         }
     
         // Preparar data
