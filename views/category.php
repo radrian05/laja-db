@@ -15,7 +15,7 @@ require_once 'generate_categories.php';
 
 <body>
     <?php include_once 'nav.php'; ?> <!--navbar y sidebar-->
-
+    <?php flash('category_message'); ?>
     <div class="container-fluid"> <!--CONTENIDO AQUI-->
         <div class="col min-vh-100 p-4">
             <h1>Categorias</h1>

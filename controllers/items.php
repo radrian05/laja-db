@@ -85,6 +85,11 @@ class ItemController {
 
     public function deleteItem($id) {
         $result = $this->itemModel->deleteItem($id);
+        if ($result) {
+            flash('delete_item', 'Item eliminado correctamente');
+        } else {
+            flash('delete_item', 'Error al eliminar el item');
+        }
         return $result;
     }
 

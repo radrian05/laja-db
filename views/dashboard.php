@@ -41,6 +41,10 @@ $exchangeRate = isset($_SESSION['exchangeRate']) ? $_SESSION['exchangeRate'] : 1
 
 <body>
     <?php include_once 'nav.php'; ?> <!--navbar y sidebar-->
+    <?php flash('add_item') ?>
+    <?php flash('edit_item')?>
+    <?php flash('delete_item')?>
+    <?php flash('stock_message')?>
 
     <div class="container-fluid"> <!--CONTENIDO AQUI-->
         <div class="col min-vh-100 p-4">

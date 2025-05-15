@@ -14,6 +14,9 @@ require_once 'users.php';
 
 <body>
     <?php include_once 'nav.php'; ?> <!--navbar y sidebar-->
+    <?php flash('register'); ?>
+    <?php flash('user_message')?>
+    <?php flash('recover_password')?>
 
     <div class="container-fluid"> <!--CONTENIDO AQUI-->
         <div class="col min-vh-100 p-4">
